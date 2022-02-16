@@ -1,0 +1,71 @@
+.main{
+    height: 100vh;
+    display: flex;
+}
+
+.main .img{
+    width: 50vw;
+    height: 100%;
+    margin-left: 10vw;
+}
+
+.main .container{
+    margin-top: 2rem;
+    width: 40vw;
+    height: 100%;
+    /* border: 2px solid; */
+}
+
+.main .container h1{
+    padding-left: 5rem;
+    /* text-align: center; */
+    font-size: xxx-large;
+    color: deepskyblue;
+    font-weight: revert;
+    letter-spacing: 3px;
+}
+
+.main .loginBox{
+    padding-left: 5rem;
+}
+.main .entryText{
+    margin-top: 3rem;
+    font-size: 2.5rem;
+}
+.main .input{
+    margin-top: 2rem;
+    height: 2rem;
+    width: 17rem;
+}
+
+.main .loginBtn{
+    text-decoration: none;
+    width: 5rem;
+    height: 2.5rem;
+    font-size: larger;
+    background-color: deepskyblue;
+    border: none;
+    margin-top: 2rem;
+
+}
+
+
+
+.main button{
+    text-decoration: none;
+     width: 10rem; 
+     height: 2.5rem;
+    font-size: larger;
+    /* background-color: rgb(56, 52, 49); */
+    border: none;
+    margin-top: 2rem;
+    color: black;
+    border: 1px solid;
+
+}
+.main .otherbtns{
+    text-decoration: none;
+}
+.main .forget{
+    margin-left: 2rem;
+ } 
