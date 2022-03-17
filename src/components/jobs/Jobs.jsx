@@ -1,185 +1,158 @@
 import Navbar from "../navbar/Navbar";
-import "./jobs.css"
-import axios from 'axios';
-import  { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import "./jobs.css";
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../authcontext/AuthProvider";
 
+let Jobs = () => {
+  const [user_role, setUserRole] = useState("");
+  const history = useNavigate();
+  const [resume, resumeSet] = useState("");
+  const [email, emailSet] = useState("");
+  const [name, nameSet] = useState("");
+  const [role, setRole] = useState(undefined);
+  const [loading, setLoading] = useState(false);
+  const [style, setStyle] = useState("none");
+  const { jobs } = useContext(AuthContext);
 
-let Jobs = async  ()=>{
-    const history = useNavigate();
-    const [url, urlSet] = useState("")
-    const [email, emailSet] = useState("");
-    const [name , nameSet] = useState("");
-    const [role , setRole] = useState(undefined);
-    const [loading, setLoading] = useState(false);
-    const [style , setStyle] = useState("none");
-    const [data , setJobs] = useState(null);
-//    let data  = undefined;
-//    let data = [];
-   async function get() {
-    var apiBase = process.env === 'PRODUCTION' ? 
-    'https://www.productionapp.com/' : 'http://localhost:4000/'
-  
-     data = await axios.get(apiBase + 'jobs');
-     data = data.data.element;
-     return data;
-    //    data = await axios.get
-   }
+  const [jobID, setJobID] = useState("");
+  const { get_user, post_job, apply_job, get_jobs } = useContext(AuthContext);
+  // let jobs = [];
 
-    async function get_data(){
-        console.log("enter in get data");
-        let user =  localStorage.getItem("user");
-        if(user){
-            data = await get(user);
-            setJobs(data);
-            return  <>
-            <div className="form"  style={{ display:style }} >
-            <div className="container grey">
-                <div className="form-container">
-                    <div className='h1Box'>
-                        <h1 className='h1'>SIGNUP</h1>
-                        <div className="line"></div>
-                    </div>
-    
-                    <div className="loginBox">
-                        <div className="entryBox">
-                            <div className="entryText">Email</div>
-                            <input className="email input" type="email" name="Email" placeholder="Your Email" required="" onChange={(e) => emailSet(e.target.value)} />
-                        </div>
-                        <div className="entryBox">
-                            <div className="entryText">Name</div>
-                            <input className="email input" type="text" name="name" placeholder="Your Name" required="" onChange={(e) => nameSet(e.target.value)} />
-                        </div>
-                        <div className="entryBox">
-                            <div className="entryText">Resume Link</div>
-                            <input className="password input" type="password" name="Password" placeholder="**********" onChange={(e) => urlSet(e.target.value)} />
-                        </div>
-                        <div className='otherOption'>
-                            <button className="otherbtns form-button" type="submit" >
-                                Submit
-                                {/* <Link to="/signup" className="otherbtns">Sign Up</Link> */}
-                            </button>
-                            {/* <br /> */}
-                            <button className="otherbtns forget form-button" type="submit" onClick={()=>{
-                                setStyle("none");
-                            }} >
-                                Close
-                                {/* <Link to="/login" className="otherbtns">Login</Link> */}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            </div>
-               { 
-                data.map((el)=>{
-                    console.log(el);
-                  return <div className="main-box"  >
-    
-                  
-                            <div className="img">
-                                <img src={el.url }alt="" />
-                            </div>
-                            <div className="center">
-                                <h4>{el.name}</h4>
-                                <p>{el.description}</p>
-    
-                            </div>
-                            <div className="button">
-    
-                                <div className="type"><button>{el.type} | {el.location}</button></div>
-                                <button onClick={()=>{
-                                    setStyle("block");
-                                }} >Apply</button>
-    
-                            </div>
-                        </div>
-                })
-            
-               }    
-            </> 
-        }else{
-            history("/login");
-        }
+  useEffect(async () => {
+    let data = await localStorage.getItem("user");
+    if (data) {
+      setUserRole(JSON.parse(data).roles);
+    } else {
+      console.log("user not found");
+      history("/login");
     }
+  }, []);
+  async function apply() {
+    let local_data = await localStorage.getItem("user");
+    let email = JSON.parse(local_data).email;
 
-//    get_data();
-    
- async function handleLogin() {
-    }
+    var apiBase =
+      process.env === "PRODUCTION"
+        ? "https://www.productionapp.com/"
+        : "http://localhost:4000/";
 
-    setTimeout(()=>{
+    await axios.post(apiBase + `jobs/${jobID}`, { email, resume }).then(() => {
+      window.alert("done");
+      history("/jobs");
+    });
+    // let data = await axios.get(apiBase + "jobs");
+    // if (jobs.length == 0) setJobs(data.data.element);
+    // let user = await localStorage.getItem("user");
+    // user = JSON.parse(user);
+    // data = await axios.get(apiBase + `jobs/applied/${user.id}`);
+
+    // let user = await get_user();
+    // let data = {};
+    // console.log(user.user);
+    // data.user_id = user.user._id;
+
+    // data.resume = resume;
+
+    // await apply_job(jobID, data);
+    // window.alert("APPLIEDD SUCCESSFULLY");
+    // setStyle("none");
+    history("/job");
+  }
+  // //console.log(jobs + " from jobs");
+  async function handleLogin() {}
+
+  return (
+    <>
+      <div className="form" style={{ display: style }}>
+        <div className="container grey">
+          <div className="form-container">
+            <div className="h1Box">
+              <h1 className="h1">APPLY JOB</h1>
+              <div className="line"></div>
+            </div>
+
+            <div className="loginBox">
+              <div className="entryBox">
+                <div className="entryText">Email</div>
+                <input
+                  className="email input"
+                  type="email"
+                  name="Email"
+                  placeholder="Your Email"
+                  required=""
+                  onChange={(e) => emailSet(e.target.value)}
+                />
+              </div>
+              <div className="entryBox">
+                <div className="entryText">Resume Link</div>
+                <input
+                  className="password input"
+                  onChange={(e) => resumeSet(e.target.value)}
+                />
+              </div>
+              <div className="otherOption">
+                <button
+                  className="otherbtns form-button"
+                  type="submit"
+                  onClick={apply}
+                >
+                  Submit
+                  {/* <Link to="/signup" className="otherbtns">Sign Up</Link> */}
+                </button>
+                {/* <br /> */}
+                <button
+                  className="otherbtns forget form-button"
+                  type="submit"
+                  onClick={() => {
+                    setStyle("none");
+                  }}
+                >
+                  Close
+                  {/* <Link to="/login" className="otherbtns">Login</Link> */}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {jobs.map((el) => {
+        // console.log("data value " + jobs);
         return (
-            (data==undefined) ?  get_data() :  <>
-               <div className="form"  style={{ display:style }} >
-               <div className="container grey">
-                   <div className="form-container">
-                       <div className='h1Box'>
-                           <h1 className='h1'>SIGNUP</h1>
-                           <div className="line"></div>
-                       </div>
-       
-                       <div className="loginBox">
-                           <div className="entryBox">
-                               <div className="entryText">Email</div>
-                               <input className="email input" type="email" name="Email" placeholder="Your Email" required="" onChange={(e) => emailSet(e.target.value)} />
-                           </div>
-                           <div className="entryBox">
-                               <div className="entryText">Name</div>
-                               <input className="email input" type="text" name="name" placeholder="Your Name" required="" onChange={(e) => nameSet(e.target.value)} />
-                           </div>
-                           <div className="entryBox">
-                               <div className="entryText">Resume Link</div>
-                               <input className="password input" type="password" name="Password" placeholder="**********" onChange={(e) => urlSet(e.target.value)} />
-                           </div>
-                           <div className='otherOption'>
-                               <button className="otherbtns form-button" type="submit" >
-                                   Submit
-                                   {/* <Link to="/signup" className="otherbtns">Sign Up</Link> */}
-                               </button>
-                               {/* <br /> */}
-                               <button className="otherbtns forget form-button" type="submit" onClick={()=>{
-                                   setStyle("none");
-                               }} >
-                                   Close
-                                   {/* <Link to="/login" className="otherbtns">Login</Link> */}
-                               </button>
-                           </div>
-                       </div>
-                   </div>
-               </div>
-               </div>
-                  { 
-                   data.map((el)=>{
-                       console.log(el);
-                     return <div className="main-box"  >
-       
-                     
-                               <div className="img">
-                                   <img src={el.url }alt="" />
-                               </div>
-                               <div className="center">
-                                   <h4>{el.name}</h4>
-                                   <p>{el.description}</p>
-       
-                               </div>
-                               <div className="button">
-       
-                                   <div className="type"><button>{el.type} | {el.location}</button></div>
-                                   <button onClick={()=>{
-                                       setStyle("block");
-                                   }} >Apply</button>
-       
-                               </div>
-                           </div>
-                   })
-               
-                  }    
-               </> 
-           
-       )
-    }, 5000);
-    
-}
+          <div className="main-box">
+            <div className="img">
+              <img src={el.url} alt="" />
+            </div>
+            <div className="center">
+              <h4>{el.name}</h4>
+              <p>{el.description}</p>
+            </div>
+            <div className="button">
+              <div className="type">
+                <button>
+                  {el.typej} | {el.location}
+                </button>
+              </div>
+              <button
+                onClick={() => {
+                  if (user_role == "Recruiter") {
+                    window.alert("You are a recruiter you can't apply");
+                    return;
+                  }
+                  setStyle("block");
+                  setJobID(el._id);
+                }}
+              >
+                Apply
+              </button>
+            </div>
+          </div>
+        );
+      })}
+    </>
+  );
+};
 
 export default Jobs;
