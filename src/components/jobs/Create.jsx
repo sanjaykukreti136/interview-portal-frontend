@@ -48,11 +48,7 @@ let Create = () => {
       recruiter: user.id,
     };
     console.log(data);
-    var apiBase =
-      process.env === "PRODUCTION"
-        ? "https://www.productionapp.com/"
-        : "http://localhost:4000/";
-
+    var apiBase = "https://gethiredfromhere.herokuapp.com/";
     await axios
       .post(apiBase + "create-job", data)
       .then(async (res) => {

@@ -27,10 +27,7 @@ function AuthProvider({ children }) {
   async function set_interviews(x) {
     let user = await localStorage.getItem("user");
     user = JSON.parse(user);
-    var apiBase =
-      process.env === "PRODUCTION"
-        ? "https://www.productionapp.com/"
-        : "http://localhost:4000/";
+    var apiBase = "https://gethiredfromhere.herokuapp.com/";
 
     let meetings = await axios.post(apiBase + "jobs/meets", {
       email: user.email,
@@ -59,15 +56,11 @@ function AuthProvider({ children }) {
     userId(user.id);
     console.log(id);
 
-    history("/profile");
+    history("/");
   }
   async function login(email, password) {
     try {
-      var apiBase =
-        process.env === "PRODUCTION"
-          ? "https://www.productionapp.com/"
-          : "http://localhost:4000/";
-
+      var apiBase = "https://gethiredfromhere.herokuapp.com/";
       const data = await axios.post(apiBase + "auth/login", {
         email: email,
         password: password,
@@ -95,10 +88,7 @@ function AuthProvider({ children }) {
 
   async function apply_job(jobid, value) {
     try {
-      var apiBase =
-        process.env === "PRODUCTION"
-          ? "https://www.productionapp.com/"
-          : "http://localhost:4000/jobs/";
+      var apiBase = "https://gethiredfromhere.herokuapp.com/";
       const data = await axios.post(apiBase + jobid, value);
       console.log(data);
     } catch (err) {}
@@ -106,11 +96,7 @@ function AuthProvider({ children }) {
 
   async function post_job(data) {
     try {
-      var apiBase =
-        process.env === "PRODUCTION"
-          ? "https://www.productionapp.com/"
-          : "http://localhost:4000/";
-
+      var apiBase = "https://gethiredfromhere.herokuapp.com/";
       const dat = await axios.post(apiBase + "create-job", data);
       console.log("data of posted", dat);
       setJobs(await get_jobs());
@@ -122,11 +108,7 @@ function AuthProvider({ children }) {
 
   async function get_jobs() {
     try {
-      var apiBase =
-        process.env === "PRODUCTION"
-          ? "https://www.productionapp.com/"
-          : "http://localhost:4000/";
-
+      var apiBase = "https://gethiredfromhere.herokuapp.com/";
       let data = await axios.get(apiBase + "jobs");
       data = data.data.element;
       setJobs(data);
@@ -142,11 +124,7 @@ function AuthProvider({ children }) {
   }
 
   useEffect(async () => {
-    var apiBase =
-      process.env === "PRODUCTION"
-        ? "https://www.productionapp.com/"
-        : "http://localhost:4000/";
-
+    var apiBase = "https://gethiredfromhere.herokuapp.com/";
     let data = await axios.get(apiBase + "jobs");
 
     let userr = await localStorage.getItem("user");

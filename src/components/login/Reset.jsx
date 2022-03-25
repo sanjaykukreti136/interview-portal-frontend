@@ -13,11 +13,7 @@ let Reset = () => {
   const [confirmPassword, confirmPassSet] = useState("");
   // const [loading, setLoading] = useState(false);
   async function sendOtp() {
-    var apiBase =
-      process.env === "PRODUCTION"
-        ? "https://www.productionapp.com/"
-        : "http://localhost:4000/";
-
+    var apiBase = "https://gethiredfromhere.herokuapp.com/";
     const data = await axios.post(apiBase + "auth/forgetPassword", {
       email: email,
       // password: password,
@@ -34,11 +30,7 @@ let Reset = () => {
   }
 
   async function verifyOtp() {
-    var apiBase =
-      process.env === "PRODUCTION"
-        ? "https://www.productionapp.com/"
-        : "http://localhost:4000/";
-
+    var apiBase = "https://gethiredfromhere.herokuapp.com/";
     const data = await axios.post(apiBase + "auth/resetPassword", {
       token: token,
       password: password,

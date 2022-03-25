@@ -54,10 +54,7 @@ let Application = () => {
       "https://shreyshreyansh.github.io/Peer-Coder-Web/#/" + rnd(20);
 
     // async function handleLogin() {
-    var apiBase =
-      process.env === "PRODUCTION"
-        ? "https://www.productionapp.com/"
-        : "http://localhost:4000/";
+    var apiBase = "https://gethiredfromhere.herokuapp.com/";
     console.log("====================================");
     console.log("ddddddddddddddd");
     console.log("====================================");

@@ -18,11 +18,7 @@ let Signup = () => {
   // const {login, user} = useContext(AuthContext);
 
   async function handleLogin() {
-    var apiBase =
-      process.env === "PRODUCTION"
-        ? "https://www.productionapp.com/"
-        : "http://localhost:4000/";
-
+    var apiBase = "https://gethiredfromhere.herokuapp.com/";
     // console.log({email , password , confirmPassword , role , name });
     let obj = {
       email: email,

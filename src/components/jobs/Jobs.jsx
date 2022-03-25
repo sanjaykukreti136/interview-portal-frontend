@@ -42,11 +42,7 @@ let Jobs = () => {
   async function apply() {
     let local_data = await localStorage.getItem("user");
     let id = JSON.parse(local_data).id;
-    var apiBase =
-      process.env === "PRODUCTION"
-        ? "https://www.productionapp.com/"
-        : "http://localhost:4000/";
-
+    var apiBase = "https://gethiredfromhere.herokuapp.com/";
     /////
     // get here user applied jobs
 
