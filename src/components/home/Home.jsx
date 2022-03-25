@@ -11,14 +11,14 @@ import { AuthContext } from "../authcontext/AuthProvider";
 let Home = () => {
   let history = useNavigate();
 
-  let { get_jobs, jobs } = useContext(AuthContext);
+  let { get_jobs, jobs, setId } = useContext(AuthContext);
+
   async function f() {
-    await get_jobs();
+    await setId();
   }
-  //   await get_jobs();
-  if (jobs.length == 0) {
-    f();
-  }
+
+  f();
+
   return (
     <>
       <div className="main">

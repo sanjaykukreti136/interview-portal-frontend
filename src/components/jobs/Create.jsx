@@ -13,7 +13,7 @@ let Create = () => {
   const [skills, skillsSet] = useState("");
   const [location, locationSet] = useState("");
   const [type, setType] = useState("FTE");
-  const { get_user, post_job } = useContext(AuthContext);
+  const { get_user, get_jobs, post_job, setId, id } = useContext(AuthContext);
 
   useEffect(() => {
     let user = localStorage.getItem("user");
@@ -22,8 +22,9 @@ let Create = () => {
       let data = JSON.parse(user);
 
       console.log(Object.keys(data));
-      if (data.roles != "Recruiter") {
+      if (data.type != "Recruiter") {
         window.alert("You are not a Recruiter");
+        // await get_jobs();
         history("/jobs");
       } else {
         setUser(data);
@@ -33,22 +34,36 @@ let Create = () => {
     }
   }, []);
   async function create_job() {
-    let user = await get_user();
-    console.log(user._id);
-    console.log(type);
+    // let user = await get_user();
+    let user = await localStorage.getItem("user");
+    user = JSON.parse(user);
+    // console.log(user.id);
+    // console.log(type);
     let data = {
       name: name,
       description: description,
       typej: type,
       location: location,
       skills: skills,
-      recruiter: user._id,
+      recruiter: user.id,
     };
     console.log(data);
-    let d = await post_job(data);
-    console.log(d + " from create");
-    window.alert("Your job added successfully");
-    history("/jobs");
+    var apiBase =
+      process.env === "PRODUCTION"
+        ? "https://www.productionapp.com/"
+        : "http://localhost:4000/";
+
+    await axios
+      .post(apiBase + "create-job", data)
+      .then(async (res) => {
+        window.alert("Your job added successfully");
+        await get_jobs();
+        // history("/profile");
+        // data = res;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
   return (
     <>

@@ -14,7 +14,16 @@ let Login = () => {
   const { login } = useContext(AuthContext);
   async function handleLogin() {
     await login(email, password);
-    history("/profile");
+    let data = await localStorage.getItem("user");
+    console.log("====================================");
+    console.log(data);
+    console.log("====================================");
+    if (data) {
+      history("/profile");
+    } else {
+      window.alert("wrong email or password");
+      // history("")
+    }
   }
   return (
     <>

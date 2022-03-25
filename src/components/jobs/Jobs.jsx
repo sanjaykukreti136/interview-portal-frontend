@@ -15,50 +15,80 @@ let Jobs = () => {
   const [loading, setLoading] = useState(false);
   const [style, setStyle] = useState("none");
   const { jobs } = useContext(AuthContext);
-
+  // jobs = jobs.jobs;
+  console.log(jobs);
+  // jobs.p
+  // if ( jobs[jobs.length - 1].role != undefined) jobs.pop();
   const [jobID, setJobID] = useState("");
-  const { get_user, post_job, apply_job, get_jobs } = useContext(AuthContext);
+  const { get_user, post_job, apply_job, get_jobs, images } =
+    useContext(AuthContext);
   // let jobs = [];
 
+  // console.log(images);
+  // images[Math.random() * 5];
+  // images[Math.random() * 5];
+  // images[Math.random() * 5];
+  // images[Math.random() * 5];
   useEffect(async () => {
     let data = await localStorage.getItem("user");
     if (data) {
-      setUserRole(JSON.parse(data).roles);
+      setUserRole(JSON.parse(data).type);
     } else {
+      alert("YOU ARE NOT LOGGED IN");
       console.log("user not found");
       history("/login");
     }
   }, []);
   async function apply() {
     let local_data = await localStorage.getItem("user");
-    let email = JSON.parse(local_data).email;
-
+    let id = JSON.parse(local_data).id;
     var apiBase =
       process.env === "PRODUCTION"
         ? "https://www.productionapp.com/"
         : "http://localhost:4000/";
 
-    await axios.post(apiBase + `jobs/${jobID}`, { email, resume }).then(() => {
-      window.alert("done");
+    /////
+    // get here user applied jobs
+
+    let user_applied_jobs = await axios.get(apiBase + `jobs/applied/${id}`);
+
+    console.log(user_applied_jobs);
+    user_applied_jobs = user_applied_jobs.data.jobs;
+    if (user_applied_jobs.includes(jobID) == true) {
+      window.alert("You have already applied to it");
       history("/jobs");
-    });
-    // let data = await axios.get(apiBase + "jobs");
-    // if (jobs.length == 0) setJobs(data.data.element);
-    // let user = await localStorage.getItem("user");
-    // user = JSON.parse(user);
-    // data = await axios.get(apiBase + `jobs/applied/${user.id}`);
+    } else {
+      /// check if id is present or not
 
-    // let user = await get_user();
-    // let data = {};
-    // console.log(user.user);
-    // data.user_id = user.user._id;
+      await axios
+        .post(apiBase + `jobs/${jobID}`, { email, resume })
+        .then(() => {
+          window.alert("done");
+          history("/jobs");
+        })
+        .catch((err) => {
+          window.alert("not valid email");
+          history("/jobs");
+        });
 
-    // data.resume = resume;
+      // let data = await axios.get(apiBase + "jobs");
+      // if (jobs.length == 0) setJobs(data.data.element);
+      // let user = await localStorage.getItem("user");
+      // user = JSON.parse(user);
+      // data = await axios.get(apiBase + `jobs/applied/${user.id}`);
 
-    // await apply_job(jobID, data);
-    // window.alert("APPLIEDD SUCCESSFULLY");
-    // setStyle("none");
-    history("/job");
+      // let user = await get_user();
+      // let data = {};
+      // console.log(user.user);
+      // data.user_id = user.user._id;
+
+      // data.resume = resume;
+
+      // await apply_job(jobID, data);
+      // window.alert("APPLIEDD SUCCESSFULLY");
+      // setStyle("none");
+      history("/jobs");
+    }
   }
   // //console.log(jobs + " from jobs");
   async function handleLogin() {}
@@ -119,37 +149,44 @@ let Jobs = () => {
       </div>
 
       {jobs.map((el) => {
-        // console.log("data value " + jobs);
-        return (
-          <div className="main-box">
-            <div className="img">
-              <img src={el.url} alt="" />
-            </div>
-            <div className="center">
-              <h4>{el.name}</h4>
-              <p>{el.description}</p>
-            </div>
-            <div className="button">
-              <div className="type">
-                <button>
-                  {el.typej} | {el.location}
+        console.log(el);
+        if (el.description) {
+          // console.log("data value " + jobs);
+          // if(el.role==undefined) {}
+          return (
+            <div className="main-box">
+              <div className="img">
+                <img
+                  src={images[Math.floor(Math.random() * images.length)]}
+                  alt=""
+                />
+              </div>
+              <div className="center">
+                <h4>{el.name}</h4>
+                <p>{el.description}</p>
+              </div>
+              <div className="button">
+                <div className="type">
+                  <button>
+                    {el.typej} | {el.location}
+                  </button>
+                </div>
+                <button
+                  onClick={() => {
+                    if (user_role == "Recruiter") {
+                      window.alert("You are a recruiter you can't apply");
+                      return;
+                    }
+                    setStyle("block");
+                    setJobID(el._id);
+                  }}
+                >
+                  Apply
                 </button>
               </div>
-              <button
-                onClick={() => {
-                  if (user_role == "Recruiter") {
-                    window.alert("You are a recruiter you can't apply");
-                    return;
-                  }
-                  setStyle("block");
-                  setJobID(el._id);
-                }}
-              >
-                Apply
-              </button>
             </div>
-          </div>
-        );
+          );
+        }
       })}
     </>
   );

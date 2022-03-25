@@ -22,15 +22,14 @@ let Navbar = () => {
       <li>
         <a href="/interview">INTERVIEWS</a>
       </li>
-      <li>
-        {" "}
+      <li style={{ float: `right`, color: "white" }}>
         <a
           onClick={() => {
             logout();
           }}
         >
-          Logout
-        </a>{" "}
+          LOGOUT
+        </a>
       </li>
       <li style={{ float: `right` }}>
         <a href="/profile">PROFILE</a>

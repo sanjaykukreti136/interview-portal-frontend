@@ -12,7 +12,7 @@ let Signup = () => {
   const [email, emailSet] = useState("");
   const [name, nameSet] = useState("");
   const [confirmPassword, confirmPasswordSet] = useState("");
-  const [role, setRole] = useState("Student");
+  const [role, setRole] = useState("Recruiter");
   const [loading, setLoading] = useState(false);
   const { signUp } = useContext(AuthContext);
   // const {login, user} = useContext(AuthContext);
@@ -28,7 +28,7 @@ let Signup = () => {
       email: email,
       password: password,
       confirmPassword: confirmPassword,
-      role: role,
+      roles: role,
       name: name,
     };
     console.log(obj);
@@ -103,12 +103,11 @@ let Signup = () => {
                 id="ddlViewBy"
                 onChange={(e) => {
                   setRole(e.currentTarget.value);
+                  console.log(e.currentTarget.value);
                 }}
               >
                 <option value="Recruiter">Recruiter</option>
-                <option value="Student" selected="selected">
-                  Student
-                </option>
+                <option value="Student">Student</option>
                 {/* <option value="3">test3</option> */}
               </select>
               <div className="otherOption">
