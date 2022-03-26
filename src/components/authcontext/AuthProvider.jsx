@@ -27,8 +27,7 @@ function AuthProvider({ children }) {
   async function set_interviews(x) {
     let user = await localStorage.getItem("user");
     user = JSON.parse(user);
-    var apiBase = "https://gethiredfromhere.herokuapp.com/";
-
+    var apiBase = "";
     let meetings = await axios.post(apiBase + "jobs/meets", {
       email: user.email,
     });
@@ -60,7 +59,8 @@ function AuthProvider({ children }) {
   }
   async function login(email, password) {
     try {
-      var apiBase = "https://gethiredfromhere.herokuapp.com/";
+      var apiBase = "";
+
       const data = await axios.post(apiBase + "auth/login", {
         email: email,
         password: password,
@@ -88,7 +88,7 @@ function AuthProvider({ children }) {
 
   async function apply_job(jobid, value) {
     try {
-      var apiBase = "https://gethiredfromhere.herokuapp.com/";
+      var apiBase = "";
       const data = await axios.post(apiBase + jobid, value);
       console.log(data);
     } catch (err) {}
@@ -96,7 +96,7 @@ function AuthProvider({ children }) {
 
   async function post_job(data) {
     try {
-      var apiBase = "https://gethiredfromhere.herokuapp.com/";
+      var apiBase = "";
       const dat = await axios.post(apiBase + "create-job", data);
       console.log("data of posted", dat);
       setJobs(await get_jobs());
@@ -108,7 +108,7 @@ function AuthProvider({ children }) {
 
   async function get_jobs() {
     try {
-      var apiBase = "https://gethiredfromhere.herokuapp.com/";
+      var apiBase = "";
       let data = await axios.get(apiBase + "jobs");
       data = data.data.element;
       setJobs(data);
@@ -124,7 +124,7 @@ function AuthProvider({ children }) {
   }
 
   useEffect(async () => {
-    var apiBase = "https://gethiredfromhere.herokuapp.com/";
+    var apiBase = "";
     let data = await axios.get(apiBase + "jobs");
 
     let userr = await localStorage.getItem("user");

@@ -54,7 +54,7 @@ let Application = () => {
       "https://shreyshreyansh.github.io/Peer-Coder-Web/#/" + rnd(20);
 
     // async function handleLogin() {
-    var apiBase = "https://gethiredfromhere.herokuapp.com/";
+    var apiBase = "";
     console.log("====================================");
     console.log("ddddddddddddddd");
     console.log("====================================");

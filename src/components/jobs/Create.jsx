@@ -48,7 +48,7 @@ let Create = () => {
       recruiter: user.id,
     };
     console.log(data);
-    var apiBase = "https://gethiredfromhere.herokuapp.com/";
+    var apiBase = "";
     await axios
       .post(apiBase + "create-job", data)
       .then(async (res) => {

@@ -42,7 +42,7 @@ let Jobs = () => {
   async function apply() {
     let local_data = await localStorage.getItem("user");
     let id = JSON.parse(local_data).id;
-    var apiBase = "https://gethiredfromhere.herokuapp.com/";
+    var apiBase = "";
     /////
     // get here user applied jobs
 

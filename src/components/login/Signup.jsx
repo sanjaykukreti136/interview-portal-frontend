@@ -18,7 +18,7 @@ let Signup = () => {
   // const {login, user} = useContext(AuthContext);
 
   async function handleLogin() {
-    var apiBase = "https://gethiredfromhere.herokuapp.com/";
+    var apiBase = "";
     // console.log({email , password , confirmPassword , role , name });
     let obj = {
       email: email,
