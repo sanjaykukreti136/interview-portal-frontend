@@ -109,6 +109,7 @@ let Interviews = () => {
         </thead>
         <tbody>
           {JSON.parse(meet).map((el) => {
+            console.log(el);
             return (
               <tr>
                 <th scope="row">{k++}</th>

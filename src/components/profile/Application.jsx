@@ -54,7 +54,7 @@ let Application = () => {
       "https://shreyshreyansh.github.io/Peer-Coder-Web/#/" + rnd(20);
 
     // async function handleLogin() {
-    var apiBase = "";
+    var apiBase = "http://localhost:3000";
     console.log("====================================");
     console.log("ddddddddddddddd");
     console.log("====================================");
@@ -65,11 +65,11 @@ let Application = () => {
       job: job,
     };
     await axios
-      .post(apiBase + "jobs/zoom", x)
+      .post(apiBase + "/jobs/zoom", x)
       .then(async (res) => {
         // data = res;
 
-        await axios.post(apiBase + "jobs/set_meetings", x);
+        await axios.post(apiBase + "/jobs/set_meetings", x);
         // addEventListener
         window.alert("mail send successfully");
 
